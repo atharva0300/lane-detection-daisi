@@ -92,7 +92,7 @@ def average_slope_intercept(image , lines ) :
 
 
 
-def image_processing(image , imageBool) : 
+def image_processing(image , imageBool , out) : 
     lane_image = np.copy(image)
     # creating a copy of the array 
     # any changes made in the lane_image is reflected back in the image
@@ -118,14 +118,18 @@ def image_processing(image , imageBool) :
     # 1 => gamma value
 
     # display the line image 
-    cv2.imshow('line image' , overlapImage)
+    # cv2.imshow('line image' , overlapImage)
+
     print(imageBool)
 
     if(imageBool is True) : 
-        # wait time for image to 0ms ( infinity )
-        cv2.waitKey(0)
+        # return the image
+        return overlapImage
     
     elif(imageBool is False) : 
+        # storing the image
+        out.write(overlapImage)
+
         # wait time for video to 1ms
         if cv2.waitKey(1) & 0xFF == ord('q') : 
             return True
