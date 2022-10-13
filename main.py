@@ -7,6 +7,11 @@ import numpy as np
 import cv2
 
 
+def API_image(imagePath) :
+    outputImage = li.image_main(imagePath)
+    return outputImage
+
+
 def st_image_ui() : 
     st.text('Taking image')
     imageFile = st.file_uploader('Upload an image file' , type = "jpg")
@@ -83,7 +88,7 @@ def st_ui() :
     
     elif(imageUI==False) : 
         st_video_ui()
-         
+
 
 
 
