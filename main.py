@@ -45,6 +45,9 @@ def st_video_ui() :
 
     vid = ""
     if(videoFile is not None ):
+        st.video('./test_video/1.mp4')
+
+        '''
         vid = videoFile.name
         with open(vid , mode = 'wb') as f : 
             f.write(videoFile.read())
@@ -57,6 +60,7 @@ def st_video_ui() :
         unsafe_allow_html=True
         )
         # display file name
+        '''
 
 
     value = st.button('Submit' , 2)
@@ -66,6 +70,7 @@ def st_video_ui() :
 
         # display the vidoe on the ui
         #st.video(videoPath , format='video/mp4' , start_time=0)
+    
 
 
 def st_ui() : 

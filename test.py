@@ -1,7 +1,7 @@
 import cv2
 import pydaisi
 
-image = pydaisi.Daisi('atharva0300/Lane Detection')
+lane_detection = pydaisi.Daisi('atharva0300/Lane Detection')
+image = lane_detection.API_image('./test_image/1.jpg')
 print(image)
-image2 = cv2.cvtColor(image , cv2.COLOR_RGB2BGR)
-cv2.imshow('API Image' , image2)
+cv2.imshow('API Image' , image)
