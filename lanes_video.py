@@ -36,7 +36,7 @@ def video_main(videoFile) :
         # the _ => value is the boolean value which says if the frame is present or not 
         # the frame gives the frame
 
-        breakValue = p.image_processing(frame , False , out = False)
+        breakValue = p.image_processing(frame , False)
         
 
         if(breakValue is True) : 

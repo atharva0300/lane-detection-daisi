@@ -15,7 +15,7 @@ def image_main(imageFile) :
 
     #cv2.imshow('original' , image)
     # display the image
-    image = p.image_processing(image , True , False)
+    image = p.image_processing(image , True )
     # take the image and store the image in the generated/images folder
 
     return image

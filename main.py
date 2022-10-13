@@ -27,14 +27,37 @@ def st_image_ui() :
         st.text('Output Image')
         st.image(outputImage , channels = "BGR")
         
+        RGBImage = cv2.cvtColor(outputImage , cv2.COLOR_BGR2RGB)
+        # converting the BGR image to RGB 
+
+        print('RGB Image : ' , RGBImage)
+        return RGBImage
+        
 
 def st_video_ui() : 
     st.text('Taking video')
-    videoFile = st.file_uploader('Upload a video')
+    videoFile = st.file_uploader('Upload a video' , type = ["mp4" , "mov"])
+
+    vid = ""
+    if(videoFile is not None ):
+        vid = videoFile.name
+        with open(vid , mode = 'wb') as f : 
+            f.write(videoFile.read())
+            # save the video to disk
+        
+        st.markdown(f"""
+        ### Files
+        - {vid}
+        """,
+        unsafe_allow_html=True
+        )
+        # display file name
+
+
     value = st.button('Submit' , 2)
     if(value==True) : 
         # store the file in byte format
-        lv.video_main('./test_video/1.mp4')
+        lv.video_main(vid)
 
         # display the vidoe on the ui
         #st.video(videoPath , format='video/mp4' , start_time=0)
