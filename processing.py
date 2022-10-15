@@ -49,7 +49,14 @@ def display_lines(image , lines) :
     return line_image
 
 def make_coordinates(image , line_parameters ) :
-    slope, intercept = line_parameters
+    # wrapping the slope and the intercept in a try and except block
+    try : 
+        slope , intercept = line_parameters
+    except : 
+        slope , intercept = 0,0
+        # if, the slope and the intercept value cannot be extracted from the line_paramters 
+        # then set then to 0
+    
     y1 = image.shape[0]
     y2 = int(y1*(3/5))
     x1 = int((y1-intercept)/slope)
@@ -75,24 +82,29 @@ def average_slope_intercept(image , lines ) :
             left_fit.append((slope , intercept))
         else : 
             right_fit.append((slope, intercept))
+        
+    left_line = np.array([0,0,0,0])
+    right_line = np.array([0,0,0,0])
     
-    left_fit_average = np.average(left_fit , axis = 0)
-    # get the average left fit
+    if left_fit : 
+        # if left_fit is not 0
+        left_fit_average = np.average(left_fit , axis = 0)
+        # get the average left fit
+        print(left_fit_average , 'left')
+        left_line = make_coordinates(image , line_parameters= left_fit_average)
 
-    right_fit_average = np.average(right_fit , axis=0)
-    # get the average right fit
-
-    print(left_fit_average , ' left')
-    print(right_fit_average , ' right')
-
-    left_line = make_coordinates(image , left_fit_average)
-    right_line = make_coordinates(image , right_fit_average)
+    if right_fit : 
+        right_fit_average = np.average(right_fit , axis=0)
+        # get the average right fit
+        print(right_fit_average , 'right')
+        right_line = make_coordinates(image , right_fit_average)
+    
 
     return np.array([left_line , right_line]) 
 
 
 
-def image_processing(image , imageBool ) : 
+def image_processing(image  ) : 
     lane_image = np.copy(image)
     # creating a copy of the array 
     # any changes made in the lane_image is reflected back in the image
@@ -120,14 +132,5 @@ def image_processing(image , imageBool ) :
     # display the line image 
     # cv2.imshow('line image' , overlapImage)
 
-    print(imageBool)
+    return overlapImage
 
-    if(imageBool is True) : 
-        # return the image
-        return overlapImage
-    
-    elif(imageBool is False) : 
-
-        # wait time for video to 1ms
-        if cv2.waitKey(1) & 0xFF == ord('q') : 
-            return True

@@ -1,51 +1,41 @@
+from socket import ALG_SET_AEAD_ASSOCLEN
 import processing as p
 import cv2
-import uuid
 import os
 
-id = uuid.uuid1()
-# Get global UUID
-
-'''
-def storeTarget(frame , out , counter):
-    for i in counter : 
-        out.write(frame)
-    
-    directory = os.getcwd()
-    print('working directory : ' , directory)
-    target_directory = directory + '/generated/videos/' + str(id) + '.mp4'
-    print('video target : ' , target_directory )
-    cv2.imwrite(target_directory , out)
-    # save the image in the target directory
-
-
-    return target_directory
-    
-'''
 
 def video_main(videoFile) : 
-    frameSize = (500 , 500)
 
     print('Video file : ' , videoFile)
     cap = cv2.VideoCapture(videoFile)
-    img = []
+    target_address = f'{os.getcwd()}/generated_images'
     counter=0
+
     while(cap.isOpened()) : 
         # decoding every video frame
         _ , frame = cap.read()
         # the _ => value is the boolean value which says if the frame is present or not 
         # the frame gives the frame
 
-        breakValue = p.image_processing(frame , False)
+
+        if(_== False) : 
+            # if the video has reached the frame after the last frame ( ie- if completed the video )
+            # then break the loop and return 
+            cap.release()  
+            cv2.destroyAllWindows() 
+            print('counter : ' , counter )
+            print('all images stored')
+            print('target_address : ' , target_address)
+
+            return True
+
+        outputImage = p.image_processing(frame)
+
+        # writing the images in the disk
+        cv2.imwrite(target_address + '/' + str(counter) + '.jpg' , outputImage)
         
+        counter += 1 
 
-        if(breakValue is True) : 
-            #target_directory = storeTarget(img , out , counter)
-            
-            cap.release()
-            cap.destroyAllWindows()
-
-            #return target_directory
     
 
 

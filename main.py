@@ -1,15 +1,27 @@
-from xml.dom import VALIDATION_ERR
 import pydaisi as pyd
 import streamlit as st
 import lanes_image as li
 import lanes_video as lv
 import numpy as np
 import cv2
+import os
+import generate_video
 
 
 def API_image(imagePath) :
     outputImage = li.image_main(imagePath)
     return outputImage
+
+def delete_all_files() : 
+    target_address = os.getcwd() + '/generated_images'
+    print(os.listdir(target_address))
+
+    for fileName in os.listdir(target_address) :
+        print('removing : ' , fileName) 
+        os.remove(target_address + '/' + fileName)
+    
+
+    print('Sucessfully removed the generated_images directory')
 
 
 def st_image_ui() : 
@@ -31,6 +43,8 @@ def st_image_ui() :
 
         st.text('Output Image')
         st.image(outputImage , channels = "BGR")
+        # channels is the type of the image which we are passing into the function
+        # here the type of the image is a BGR image
         
         RGBImage = cv2.cvtColor(outputImage , cv2.COLOR_BGR2RGB)
         # converting the BGR image to RGB 
@@ -43,33 +57,32 @@ def st_video_ui() :
     st.text('Taking video')
     videoFile = st.file_uploader('Upload a video' , type = ["mp4" , "mov"])
 
-    vid = ""
     if(videoFile is not None ):
-        st.video('./test_video/1.mp4')
-
-        '''
-        vid = videoFile.name
-        with open(vid , mode = 'wb') as f : 
-            f.write(videoFile.read())
-            # save the video to disk
-        
-        st.markdown(f"""
-        ### Files
-        - {vid}
-        """,
-        unsafe_allow_html=True
-        )
-        # display file name
-        '''
+        st.video(str(os.getcwd()) + '/test_video/1.mp4' , format = "video/mp4" , start_time = 0)
 
 
     value = st.button('Submit' , 2)
     if(value==True) : 
+        video_address =  f'{os.getcwd()}/test_video/1.mp4'
         # store the file in byte format
-        lv.video_main(vid)
+        finishedsaving = lv.video_main(video_address)
 
-        # display the vidoe on the ui
-        #st.video(videoPath , format='video/mp4' , start_time=0)
+        if finishedsaving==True : 
+            # generating the video using the temp_main function from the temp.py file 
+            finishedTask = generate_video.generate()
+            print(finishedTask)
+            
+            if finishedTask==True : 
+                print('Successfully generated video')
+                # display the vidoe on the ui
+                target_address = f'{os.getcwd()}/generated_video/1.mp4'
+
+                st.video( target_address, format="video/mp4" , start_time=0)
+
+                # delete all the images in the generated_images folder
+                delete_all_files()
+
+                print(target_address)
     
 
 
