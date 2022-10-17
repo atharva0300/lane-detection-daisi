@@ -39,7 +39,8 @@ def st_image_ui() :
         st.image(opencvImage , channels = "BGR")
 
     if(value==True) :
-        outputImage =  li.image_main(imageFile)
+        # converting the uploaded streamlit image into opencv readable image 
+        outputImage =  li.image_main(opencvImage)
 
         st.text('Output Image')
         st.image(outputImage , channels = "BGR")

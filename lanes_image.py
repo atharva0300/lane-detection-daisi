@@ -6,19 +6,22 @@ import uuid
 import os
 
 
-def image_main(imageFile) : 
+def image_main(image) : 
 
-    print('Image File : ' , imageFile)
     # reading the image 
-    image = cv2.imread('./test_image/1.jpg')
+    #image = cv2.imread(imageFile)
     print('image : ' , image)
 
     #cv2.imshow('original' , image)
     # display the image
-    image = p.image_processing(image )
+    outputImage = p.image_processing(image )
     # take the image and store the image in the generated/images folder
 
-    return image
+    # storing the image in the generated image folder
+    cv2.imwrite(os.getcwd() + '/generated_images/1.jpg' , outputImage)
+
+
+    return outputImage
     
 
 
